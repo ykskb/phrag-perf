@@ -1,6 +1,8 @@
 import { sleep } from "k6";
 import http from "k6/http";
 
+const targetVU = 300;
+
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 const params = {
   headers: {
@@ -31,12 +33,14 @@ const sendQuery = () => {
     id_gt: getRandomInt(0, maxVenueId),
   };
   const payload = JSON.stringify({ query, variables });
-  const submitResult = http.post(gqlUrl, payload, params);
-  // console.log(submitResult.body);
+  http.post(gqlUrl, payload, params);
 };
 
 export const options = {
-  stages: [{ duration: "1m", target: 50 }],
+  stages: [
+    { duration: "30s", target: targetVU },
+    { duration: "30s", target: targetVU },
+  ],
   thresholds: {
     http_req_duration: ["p(95)<500"],
   },

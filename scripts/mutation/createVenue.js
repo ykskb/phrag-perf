@@ -1,6 +1,8 @@
 import { sleep } from "k6";
 import http from "k6/http";
 
+const targetVU = 300;
+
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 const params = {
   headers: {
@@ -39,7 +41,10 @@ const createVenue = () => {
 };
 
 export const options = {
-  stages: [{ duration: "30s", target: 100 }],
+  stages: [
+    { duration: "30s", target: targetVU },
+    { duration: "30s", target: targetVU },
+  ],
   thresholds: {
     http_req_duration: ["p(95)<500"],
   },

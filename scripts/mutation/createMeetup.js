@@ -1,6 +1,8 @@
 import { sleep } from "k6";
 import http from "k6/http";
 
+const targetVU = 300;
+
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 const startAtCandidates = [
   "2022-04-23 18:00:00",
@@ -53,8 +55,8 @@ const createMeetup = () => {
 
 export const options = {
   stages: [
-    { duration: "30s", target: 300 },
-    { duration: "30s", target: 300 },
+    { duration: "30s", target: targetVU },
+    { duration: "30s", target: targetVU },
   ],
   thresholds: {
     http_req_duration: ["p(95)<500"],

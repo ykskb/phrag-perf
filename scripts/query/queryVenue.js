@@ -1,6 +1,8 @@
 import { sleep } from "k6";
 import http from "k6/http";
 
+const targetVU = 300;
+
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 const params = {
   headers: {
@@ -19,10 +21,10 @@ const getRandomInt = (min, max) => {
 const sendQuery = () => {
   const query = `
   query myQuery ($limit:Int!, $offset:Int!, $id_gt:Int!) {
-	  venues (limit: $limit, offset:$offset, where: {id: {gt: $id_gt}}) {
-		  id name postal_code
-		}
-	}`;
+    venues (limit: $limit, offset:$offset, where: {id: {gt: $id_gt}}) {
+      id name postal_code
+    }
+  }`;
   const variables = {
     limit: getRandomInt(0, maxLimit),
     offset: getRandomInt(0, maxOffset),
@@ -33,7 +35,10 @@ const sendQuery = () => {
 };
 
 export const options = {
-  stages: [{ duration: "30s", target: 70 }],
+  stages: [
+    { duration: "30s", target: targetVU },
+    { duration: "30s", target: targetVU },
+  ],
   thresholds: {
     http_req_duration: ["p(95)<500"],
   },
