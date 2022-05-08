@@ -5,7 +5,7 @@ import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
 
 // Variables
 
-const title = "query-venue";
+const title = "query-meetup-member";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
 const queryIntervalSecs = 2;
@@ -14,9 +14,13 @@ const limit = __ENV.ITEM_LIMIT || 100;
 const maxOffset = 100;
 const maxVenueId = 100000;
 const query = `
-  query myQuery ($limit:Int!, $offset:Int!, $id_gt:Int!) {
-    venues (limit: $limit, offset:$offset, where: {id: {gt: $id_gt}}) {
-      id name postal_code
+  query myQuery ($limit: Int!, $offset: Int!, $id_gt: Int!) {
+    meetups (limit: $limit, offset: $offset where:{id: {gt: $id_gt}}) {
+      id title meetups_members (limit: $limit) {
+        member {
+          id email
+        }
+      }
     }
   }`;
 

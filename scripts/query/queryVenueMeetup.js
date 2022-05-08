@@ -5,18 +5,20 @@ import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
 
 // Variables
 
-const title = "query-venue";
+const title = "query-venue-with-meetup";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
-const queryIntervalSecs = 2;
 const targetVU = __ENV.TARGET_VU || 100;
+const queryIntervalSecs = 2;
 const limit = __ENV.ITEM_LIMIT || 100;
 const maxOffset = 100;
 const maxVenueId = 100000;
 const query = `
   query myQuery ($limit:Int!, $offset:Int!, $id_gt:Int!) {
     venues (limit: $limit, offset:$offset, where: {id: {gt: $id_gt}}) {
-      id name postal_code
+      id name postal_code meetups (limit: $limit, sort: {id: desc}) {
+        id title
+      }
     }
   }`;
 
@@ -72,9 +74,6 @@ const params = {
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
-
-const errorRate = new Rate("errorRate");
-
 const sendQuery = () => {
   const variables = {
     limit: limit,
