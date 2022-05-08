@@ -9,8 +9,8 @@ const title = "query-venue";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
 const queryIntervalSecs = 2;
-const targetVU = __ENV.TARGET_VU || 100;
-const limit = __ENV.ITEM_LIMIT || 100;
+const targetVU = parseInt(__ENV.TARGET_VU) || 100;
+const limit = parseInt(__ENV.ITEM_LIMIT) || 100;
 const maxOffset = 100;
 const maxVenueId = 100000;
 const query = `

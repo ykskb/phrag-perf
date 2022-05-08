@@ -8,7 +8,7 @@ const title = "create-member";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
 const queryIntervalSecs = 1;
-const targetVU = __ENV.TARGET_VU || 100;
+const targetVU = parseInt(__ENV.TARGET_VU) || 100;
 const query = `
   mutation createEnduserMutation($email: String!, $first: String!, $last: String!) {
     createMember(email: $email, first_name: $first, last_name: $last) {

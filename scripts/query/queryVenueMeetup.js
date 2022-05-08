@@ -8,9 +8,9 @@ import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
 const title = "query-venue-with-meetup";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
-const targetVU = __ENV.TARGET_VU || 100;
 const queryIntervalSecs = 2;
-const limit = __ENV.ITEM_LIMIT || 100;
+const targetVU = parseInt(__ENV.TARGET_VU) || 100;
+const limit = parseInt(__ENV.ITEM_LIMIT) || 100;
 const maxOffset = 100;
 const maxVenueId = 100000;
 const query = `

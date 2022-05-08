@@ -7,7 +7,7 @@ const title = "create-meetup";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
 const queryIntervalSecs = 1;
-const targetVU = __ENV.TARGET_VU || 100;
+const targetVU = parseInt(__ENV.TARGET_VU) || 100;
 const meetupMaxId = 100000;
 const memberMaxId = 100000;
 const query = `

@@ -24,12 +24,15 @@ function run_load_test {
         echo "File: $script_name Target VU: $target_vu"
         command="k6 run -e $env_file_path -e $env_target_vu -e $env_limit $script_path"
         echo $command
-        $($command) || {
-            echo 'k6 failed'
+        $command
+        # if any of thresholds fails, failure exit code will be returned
+        status="$?"
+        if [ $status -gt 0 ]; then
+            echo "k6 failed $status"
             exit 1
-        } # status=$?
+        fi
 
-        # result
+        # double check result
         result=$(cat $result_file_path | jq '.metrics.http_req_duration.thresholds."p(95)<500".ok')
         echo "$result"
         if [ "$result" != true ]; then
@@ -42,7 +45,7 @@ function run_load_test {
 }
 
 function run_test {
-    for f in "queryVenue.js"; do # "queryVenueMeetup.js" "queryMeetupMember"
+    for f in "queryVenue.js" "queryVenueMeetup.js" "queryMeetupMember.js"; do
         run_load_test $1 $2 $f
     done
 }

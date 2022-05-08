@@ -8,7 +8,7 @@ const title = "create-venue";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
 const queryIntervalSecs = 1;
-const targetVU = __ENV.TARGET_VU || 100;
+const targetVU = parseInt(__ENV.TARGET_VU) || 100;
 const query = `
   mutation createVenue($name: String!, $postal_code: String!) {
     createVenue (name: $name, postal_code: $postal_code) {

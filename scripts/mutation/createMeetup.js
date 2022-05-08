@@ -8,7 +8,7 @@ const title = "create-meetup";
 const gqlUrl = __ENV.BASE_URL + "/graphql";
 
 const queryIntervalSecs = 1;
-const targetVU = __ENV.TARGET_VU || 100;
+const targetVU = parseInt(__ENV.TARGET_VU) || 100;
 const venueMaxId = 100000;
 const startAtCandidates = [
   "2022-04-23T18:00:00",
