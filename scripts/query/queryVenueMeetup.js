@@ -74,6 +74,9 @@ const params = {
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
+
+const errorRate = new Rate("errorRate");
+
 const sendQuery = () => {
   const variables = {
     limit: limit,
@@ -85,6 +88,7 @@ const sendQuery = () => {
   const d = r.json();
   if (d["errors"] || !d.hasOwnProperty("data")) {
     errorRate.add(1);
+    console.log(r.body);
   } else {
     errorRate.add(0);
   }

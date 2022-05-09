@@ -86,6 +86,7 @@ const sendQuery = () => {
   const d = r.json();
   if (d["errors"] || !d.hasOwnProperty("data")) {
     errorRate.add(1);
+    console.log(r.body);
   } else {
     errorRate.add(0);
   }
